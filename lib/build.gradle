@@ -6,23 +6,71 @@
  * User Manual available at https://docs.gradle.org/6.7/userguide/building_java_projects.html
  */
 
-plugins {
-    // Apply the java-library plugin for API and implementation separation.
-    id 'java-library'
+    plugins {
+        // Apply the java-library plugin for API and implementation separation.
+        id 'java-library'
+        id 'com.bmuschko.nexus' version '2.3.1'
+    }
+
+    repositories {
+        // Use JCenter for resolving dependencies.
+        jcenter()
+    }
+    sourceCompatibility = '1.6'
+    targetCompatibility = '1.6'
+    dependencies {
+        // Use JUnit test framework.
+        //testImplementation 'junit:junit:4.13'
+
+        // This dependency is exported to consumers, that is to say found on their compile classpath.
+        //api 'org.apache.commons:commons-math3:3.6.1'
+
+        // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+        //implementation 'com.google.guava:guava:29.0-jre'
+    }
+
+apply plugin: 'com.bmuschko.nexus'
+archivesBaseName = 'beemovie'
+group = "cf.roooster"
+version = "1.0.0"
+modifyPom {
+    project {
+        name 'beemovie'
+        description 'A Bee Movie text generator written in Java 1.6'
+        url 'https://github.com/roosterchicken/beemovie-java'
+        inceptionYear '2020'
+
+        scm {
+            url 'https://github.com/roosterchicken/beemovie-java'
+            connection 'scm:https://github.com/roosterchicken/beemovie-java.git'
+            developerConnection 'scm:git://github.com/roosterchicken/beemovie-java.git'
+        }
+
+        licenses {
+            license {
+                name 'MIT Licence'
+                url 'https://opensource.org/licenses/MIT'
+                distribution 'repo'
+            }
+        }
+
+        developers {
+            developer {
+                id 'roosterchicken'
+                name 'Rooster'
+                email 'roosterchicken@protonmail.ch'
+            }
+        }
+    }
 }
 
-repositories {
-    // Use JCenter for resolving dependencies.
-    jcenter()
+extraArchive {
+    sources = true
+    javadoc = true
 }
 
-dependencies {
-    // Use JUnit test framework.
-    //testImplementation 'junit:junit:4.13'
-
-    // This dependency is exported to consumers, that is to say found on their compile classpath.
-    //api 'org.apache.commons:commons-math3:3.6.1'
-
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    //implementation 'com.google.guava:guava:29.0-jre'
+nexus {
+    sign = true
+    repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2'
+    snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
 }

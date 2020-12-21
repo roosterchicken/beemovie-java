@@ -15,7 +15,7 @@ class Multiply {
             }
             number = number - 1;
         }
-        return str;
+        return str.trim();
     }
     static String multiplyWords(int num, String[] array) {
         String str = "";
@@ -29,7 +29,7 @@ class Multiply {
             }
             number = number - 1;
         }
-        return str;
+        return str.trim();
     }
     static String multiplyParagraph(int num, String[] array) {
         String str = "";
